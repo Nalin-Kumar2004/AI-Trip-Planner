@@ -68,12 +68,6 @@ Required environment variables:
 
 Firebase config is included in the code (safe for frontend).
 
-## 🎨 Design System
-
-- **Color Palette**: Zinc-based with orange/pink/purple gradients
-- **Typography**: System fonts with clear hierarchy
-- **Effects**: Glassmorphism, backdrop-blur, smooth transitions
-- **Animations**: Entrance animations, hover states, micro-interactions
 
 ## 📄 License
 
@@ -82,3 +76,4 @@ MIT License - feel free to use this project for your portfolio or personal use!
 ---
 
 Built with ❤️ using React + Vite
+
