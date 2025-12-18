@@ -59,14 +59,33 @@ This project is optimized for deployment on Vercel:
 3. Add environment variables
 4. Deploy!
 
+
 ## 📝 Environment Variables
 
 Required environment variables:
-- `VITE_GEOAPIFY_API_KEY` - For location autocomplete
-- `VITE_GROQ_API_KEY` - For AI trip generation
-- `VITE_GOOGLE_CLIENT_ID` - For Google OAuth authentication
+- `VITE_GEOAPIFY_API_KEY` – For location autocomplete
+- `VITE_GROQ_API_KEY` – For AI trip generation
+- `VITE_GOOGLE_CLIENT_ID` – For Google OAuth authentication
+- `VITE_FIREBASE_API_KEY` – Firebase API key
+- `VITE_FIREBASE_AUTH_DOMAIN` – Firebase Auth domain
+- `VITE_FIREBASE_PROJECT_ID` – Firebase project ID
+- `VITE_FIREBASE_STORAGE_BUCKET` – Firebase storage bucket
+- `VITE_FIREBASE_MESSAGING_SENDER_ID` – Firebase messaging sender ID
+- `VITE_FIREBASE_APP_ID` – Firebase app ID
 
-Firebase config is included in the code (safe for frontend).
+**Example:**
+```env
+VITE_GEOAPIFY_API_KEY=your_geoapify_key
+VITE_GROQ_API_KEY=your_groq_key
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
 
 ## 📄 License
