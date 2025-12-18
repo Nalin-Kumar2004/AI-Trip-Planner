@@ -1,25 +1,27 @@
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GeoapifyGeocoderAutocomplete, GeoapifyContext } from '@geoapify/react-geocoder-autocomplete';
 import '@geoapify/geocoder-autocomplete/styles/minimal.css';
+import { toast } from 'sonner';
+import { chatSession } from '@/service/AIModal';
+import { useAuth } from '@/context/AuthContext';
+import { saveTrip } from '@/service/firebaseService';
+import { motion } from 'framer-motion';
+import { MapPin, Calendar, DollarSign, Users, Sparkles } from 'lucide-react';
 
 function CreateTrip() {
-  const [place, setPlace] = useState(null);
+  const navigate = useNavigate();
+  const { user, login } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
+  const { location, budget, traveler, noOfDays } = formData;
 
   function onPlaceSelect(value) {
-    console.log('Geoapify returned:', value);
-    setPlace(value);
-    // Extract location data from Geoapify response
-    const locationData = {
-      name: value?.properties?.formatted || value?.properties?.name || value?.properties?.city || '',
-      coordinates: value?.properties?.lat && value?.properties?.lon 
-        ? { lat: value.properties.lat, lon: value.properties.lon }
-        : null
-    };
-    console.log('Extracted location:', locationData);
-    handleInputChange('location', locationData.name);
+    const locationName = value?.properties?.formatted || value?.properties?.name || value?.properties?.city || '';
+    handleInputChange('location', locationName);
   }
 
   const handleInputChange = (name, value) => {
@@ -29,91 +31,236 @@ function CreateTrip() {
     });
   };
 
+  const generateTrip = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await chatSession(formData);
+      const tripId = await saveTrip(
+        response,
+        formData,
+        user.id,
+        user.email
+      );
+      toast.success("Trip saved successfully!");
+      navigate(`/view-trip/${tripId}`);
+    } catch (error) {
+      console.error('Error generating trip:', error);
+      toast.error("Failed to generate trip plan");
+    } finally {
+      setLoading(false);
+    }
+  }, [formData, navigate, user]);
+
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+    if (user && location && budget && traveler && noOfDays) {
+      generateTrip();
+    }
+  }, [user, location, budget, traveler, noOfDays, generateTrip]);
 
   const OnGenerateTrip = () => {
-    if (!formData?.location || !formData?.budget || !formData?.traveler || !formData?.noOfDays) {
-      alert('Please fill in all fields');
+    if (!location || !budget || !traveler || !noOfDays) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
-    if (formData?.noOfDays > 5) {
-      alert('Days cannot exceed 5');
+    if (Number(noOfDays) > 5) {
+      toast.error('Days cannot exceed 5');
       return;
     }
 
-    console.log(formData);
+    if (!user) {
+      toast.error('Please sign in to generate a trip');
+      login();
+      return;
+    }
+    generateTrip();
   };
 
   return (
-    <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 mt-10'>
-      <h2 className='font-bold text-3xl'>Tell us your travel preferences 🏕️🌴</h2>
-      <p className='mt-3 text-gray-500 text-xl'>
-        Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.
-      </p>
+    <div className='min-h-screen bg-zinc-50 dark:bg-zinc-950'>
+      {/* Form Content */}
+      <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 py-8'>
+        <div className='max-w-4xl mx-auto'>
+          {/* Compact Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className='mb-8'
+          >
+            <h2 className='font-bold text-3xl text-zinc-900 dark:text-white mb-2'>
+              Tell us your travel preferences 🏕️🌴
+            </h2>
+            <p className='text-zinc-600 dark:text-zinc-400 text-lg'>
+              Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.
+            </p>
+          </motion.div>
 
-      <div className='mt-20 flex flex-col gap-10'>
-        <div>
-          <h2 className='text-xl my-3 font-medium'>What is destination of choice?</h2>
-          <GeoapifyContext apiKey={import.meta.env.VITE_GEOAPIFY_API_KEY}>
-            <GeoapifyGeocoderAutocomplete
-              placeholder="Enter address here"
-              placeSelect={onPlaceSelect}
-            />
-          </GeoapifyContext>
-        </div>
-
-        <div>
-          <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
-          <input
-            placeholder={'Ex.3'}
-            type="number"
-            onChange={(e) => handleInputChange('noOfDays', e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2"
-          />
-        </div>
-
-        <div>
-          <h2 className='text-xl my-3 font-medium'>What is Your Budget?</h2>
-          <div className='grid grid-cols-3 gap-5 mt-5'>
-            {SelectBudgetOptions.map((item, index) => (
-              <div
-                key={index}
-                onClick={() => handleInputChange('budget', item.title)}
-                className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
-                  ${formData?.budget == item.title && 'shadow-lg border-black'}`}
-              >
-                <h2 className='text-4xl'>{item.icon}</h2>
-                <h2 className='font-bold text-lg'>{item.title}</h2>
-                <h2 className='text-sm text-gray-500'>{item.desc}</h2>
+          <div className='flex flex-col gap-6'>
+            
+            {/* Location Input */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+            >
+              <div className='flex items-center gap-3 mb-4'>
+                <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
+                  <MapPin className='w-5 h-5 text-white' />
+                </div>
+                <div>
+                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>What is destination of choice?</h2>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
+              
+              <GeoapifyContext apiKey={import.meta.env.VITE_GEOAPIFY_API_KEY}>
+                <div className='geoapify-autocomplete-wrapper'>
+                  <GeoapifyGeocoderAutocomplete
+                    placeholder="Search for a city or destination..."
+                    placeSelect={onPlaceSelect}
+                    filterByTypes={['city', 'state', 'country']}
+                    skipDetails={false}
+                  />
+                </div>
+              </GeoapifyContext>
+            </motion.div>
 
-        <div>
-          <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
-          <div className='grid grid-cols-3 gap-5 mt-5'>
-            {SelectTravelesList.map((item, index) => (
-              <div
-                key={index}
-                onClick={() => handleInputChange('traveler', item.people)}
-                className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
-                  ${formData?.traveler == item.people && 'shadow-lg border-black'}`}
-              >
-                <h2 className='text-4xl'>{item.icon}</h2>
-                <h2 className='font-bold text-lg'>{item.title}</h2>
-                <h2 className='text-sm text-gray-500'>{item.desc}</h2>
+            {/* Days Input */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+            >
+              <div className='flex items-center gap-3 mb-4'>
+                <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
+                  <Calendar className='w-5 h-5 text-white' />
+                </div>
+                <div>
+                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>How many days are you planning your trip?</h2>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+              
+              <input
+                placeholder='Ex.3'
+                type="number"
+                min="1"
+                max="5"
+                onChange={(e) => handleInputChange('noOfDays', e.target.value)}
+                className="w-full border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer"
+              />
+            </motion.div>
 
-      <div className='my-10 justify-end flex'>
-        <Button onClick={OnGenerateTrip}>Generate Trip</Button>
+            {/* Budget Selection */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+            >
+              <div className='flex items-center gap-3 mb-4'>
+                <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
+                  <DollarSign className='w-5 h-5 text-white' />
+                </div>
+                <div>
+                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>What is Your Budget?</h2>
+                </div>
+              </div>
+              
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
+                {SelectBudgetOptions.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.02, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleInputChange('budget', item.title)}
+                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white dark:bg-zinc-800
+                      ${formData?.budget == item.title 
+                        ? 'border-orange-500 shadow-lg shadow-orange-500/20' 
+                        : 'border-zinc-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md'}`}
+                  >
+                    {formData?.budget == item.title && (
+                      <div className='absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center'>
+                        <span className='text-white text-xs'>✓</span>
+                      </div>
+                    )}
+                    <h2 className='text-4xl mb-2'>{item.icon}</h2>
+                    <h2 className='font-bold text-lg text-zinc-900 dark:text-white mb-1'>{item.title}</h2>
+                    <h2 className='text-sm text-zinc-600 dark:text-zinc-400'>{item.desc}</h2>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Travelers Selection */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+            >
+              <div className='flex items-center gap-3 mb-4'>
+                <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
+                  <Users className='w-5 h-5 text-white' />
+                </div>
+                <div>
+                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>Who do you plan on traveling with on your next adventure?</h2>
+                </div>
+              </div>
+              
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-4'>
+                {SelectTravelesList.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.02, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleInputChange('traveler', item.people)}
+                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white dark:bg-zinc-800
+                      ${formData?.traveler == item.people 
+                        ? 'border-orange-500 shadow-lg shadow-orange-500/20' 
+                        : 'border-zinc-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md'}`}
+                  >
+                    {formData?.traveler == item.people && (
+                      <div className='absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center'>
+                        <span className='text-white text-xs'>✓</span>
+                      </div>
+                    )}
+                    <h2 className='text-4xl mb-2'>{item.icon}</h2>
+                    <h2 className='font-bold text-lg text-zinc-900 dark:text-white mb-1'>{item.title}</h2>
+                    <h2 className='text-sm text-zinc-600 dark:text-zinc-400'>{item.desc}</h2>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Generate Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className='mt-8 flex justify-end'
+          >
+            <Button 
+              onClick={OnGenerateTrip} 
+              disabled={loading}
+              className='bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 hover:opacity-90 text-white px-10 py-5 text-base rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'
+            >
+              {loading ? (
+                <>
+                  <Spinner className="mr-2 w-4 h-4" />
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 w-4 h-4" />
+                  <span>Generate Trip</span>
+                </>
+              )}
+            </Button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
