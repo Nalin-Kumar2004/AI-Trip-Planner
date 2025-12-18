@@ -12,7 +12,6 @@ A modern, AI-powered travel planning application built with React, featuring a b
 - 💾 **Save & Sync** - All trips saved to Firebase for access anywhere
 - 🌙 **Dark Mode** - Beautiful light/dark theme toggle
 - 📱 **Fully Responsive** - Optimized for mobile, tablet, and desktop
-- 🎨 **Premium UI** - Glassmorphism effects, smooth animations with Framer Motion
 
 ## 🚀 Tech Stack
 
