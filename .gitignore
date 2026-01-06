@@ -107,6 +107,14 @@ dist/
 .env.local
 .env.*.local
 
+# Development server (local only)
+server.js
+
+# Internal documentation (local only)
+ORGANIZATION.md
+TODO.md
+NOTES.md
+
 # IDEs and editors
 .vscode/
 .idea/

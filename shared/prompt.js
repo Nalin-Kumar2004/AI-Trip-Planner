@@ -1,12 +1,4 @@
-/**
- * AI Modal - Vercel Serverless Integration
- * =======================================
- *
- * Purpose: call the backend serverless function (/api/generateTrip) so
- * API keys stay on the server and are never exposed to the browser.
- */
-
-const AI_PROMPT_TEMPLATE = `Generate a travel plan ONLY as valid JSON (no markdown, no extra text) for:
+export const AI_PROMPT_TEMPLATE = `Generate a travel plan ONLY as valid JSON (no markdown, no extra text) for:
 Location: {location}
 Days: {totalDays}
 Travelers: {traveler}
@@ -56,32 +48,3 @@ Return EXACTLY this JSON structure:
 }
 
 Return valid JSON only, no markdown or extra text.`;
-
-export async function chatSession(fieldData) {
-  const prompt = AI_PROMPT_TEMPLATE
-    .replaceAll("{location}", fieldData.location)
-    .replaceAll("{totalDays}", fieldData.noOfDays)
-    .replaceAll("{traveler}", fieldData.traveler)
-    .replaceAll("{budget}", fieldData.budget);
-
-  const response = await fetch("/api/generateTrip", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      location: fieldData.location,
-      noOfDays: fieldData.noOfDays,
-      traveler: fieldData.traveler,
-      budget: fieldData.budget,
-      prompt,
-    }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok || !data.success) {
-    throw new Error(data.error || "Failed to generate trip. Please try again.");
-  }
-
-  return data.tripData;
-}
-

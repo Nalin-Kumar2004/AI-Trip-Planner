@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { GeoapifyGeocoderAutocomplete, GeoapifyContext } from '@geoapify/react-geocoder-autocomplete';
 import '@geoapify/geocoder-autocomplete/styles/minimal.css';
 import { toast } from 'sonner';
-import { chatSession } from '@/service/AIModal';
+import { generateTrip } from '@/service/aiService';
 import { useAuth } from '@/context/AuthContext';
 import { saveTrip } from '@/service/firebaseService';
 import { motion } from 'framer-motion';
@@ -31,10 +31,10 @@ function CreateTrip() {
     });
   };
 
-  const generateTrip = useCallback(async () => {
+  const generateTripPlan = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await chatSession(formData);
+      const response = await generateTrip(formData);
       const tripId = await saveTrip(
         response,
         formData,
@@ -53,9 +53,9 @@ function CreateTrip() {
 
   useEffect(() => {
     if (user && location && budget && traveler && noOfDays) {
-      generateTrip();
+      generateTripPlan();
     }
-  }, [user, location, budget, traveler, noOfDays, generateTrip]);
+  }, [user, location, budget, traveler, noOfDays, generateTripPlan]);
 
   const OnGenerateTrip = () => {
     if (!location || !budget || !traveler || !noOfDays) {
@@ -73,7 +73,7 @@ function CreateTrip() {
       login();
       return;
     }
-    generateTrip();
+    generateTripPlan();
   };
 
   return (
