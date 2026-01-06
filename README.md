@@ -126,7 +126,7 @@ This starts the serverless function at `http://localhost:3000/api/generateTrip`
 
 ## 📋 Environment Variables Reference
 
-### Frontend Variables (Safe to Expose)
+### Frontend Variables
 | Variable | Source | Purpose |
 |----------|--------|---------|
 | `VITE_FIREBASE_API_KEY` | Firebase Console | SDK authentication |
