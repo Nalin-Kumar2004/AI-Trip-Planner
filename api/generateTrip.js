@@ -1,10 +1,8 @@
-/**
- * AI Modal - Vercel Serverless Integration
- * =======================================
- *
- * Purpose: call the backend serverless function (/api/generateTrip) so
- * API keys stay on the server and are never exposed to the browser.
- */
+import Groq from "groq-sdk";
+
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 const AI_PROMPT_TEMPLATE = `Generate a travel plan ONLY as valid JSON (no markdown, no extra text) for:
 Location: {location}
@@ -57,31 +55,50 @@ Return EXACTLY this JSON structure:
 
 Return valid JSON only, no markdown or extra text.`;
 
-export async function chatSession(fieldData) {
-  const prompt = AI_PROMPT_TEMPLATE
-    .replaceAll("{location}", fieldData.location)
-    .replaceAll("{totalDays}", fieldData.noOfDays)
-    .replaceAll("{traveler}", fieldData.traveler)
-    .replaceAll("{budget}", fieldData.budget);
-
-  const response = await fetch("/api/generateTrip", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      location: fieldData.location,
-      noOfDays: fieldData.noOfDays,
-      traveler: fieldData.traveler,
-      budget: fieldData.budget,
-      prompt,
-    }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok || !data.success) {
-    throw new Error(data.error || "Failed to generate trip. Please try again.");
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  return data.tripData;
-}
+  const { location, noOfDays, traveler, budget } = req.body || {};
 
+  if (!location || !noOfDays || !traveler || !budget) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const prompt = AI_PROMPT_TEMPLATE
+    .replaceAll("{location}", location)
+    .replaceAll("{totalDays}", noOfDays)
+    .replaceAll("{traveler}", traveler)
+    .replaceAll("{budget}", budget);
+
+  try {
+    const response = await groq.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 0.7,
+    });
+
+    let text = response.choices[0].message.content;
+    text = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+
+    const tripData = JSON.parse(text);
+
+    return res.status(200).json({ success: true, tripData });
+  } catch (error) {
+    console.error("Error generating trip:", error);
+
+    if (error instanceof SyntaxError) {
+      return res
+        .status(502)
+        .json({ error: "AI returned invalid JSON. Please try again." });
+    }
+
+    return res.status(500).json({ error: "Failed to generate trip" });
+  }
+}
