@@ -63,11 +63,6 @@ function CreateTrip() {
       return;
     }
 
-    if (Number(noOfDays) > 5) {
-      toast.error('Days cannot exceed 5');
-      return;
-    }
-
     if (!user) {
       toast.error('Please sign in to generate a trip');
       login();
@@ -124,6 +119,10 @@ function CreateTrip() {
                   />
                 </div>
               </GeoapifyContext>
+              <p className='text-sm text-amber-600 dark:text-amber-400 mt-3 flex items-start gap-2'>
+                <span className='text-base'>⚠️</span>
+                <span>Please select a destination from the autocomplete suggestions only. Random text entries will not generate a trip.</span>
+              </p>
             </motion.div>
 
             {/* Days Input */}
@@ -146,8 +145,8 @@ function CreateTrip() {
                 placeholder='Ex.3'
                 type="number"
                 min="1"
-                max="5"
                 onChange={(e) => handleInputChange('noOfDays', e.target.value)}
+                onWheel={(e) => e.target.blur()}
                 className="w-full border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer"
               />
             </motion.div>
