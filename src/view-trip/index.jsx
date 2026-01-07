@@ -292,7 +292,7 @@ function ViewTrip() {
 
       <footer className="mt-16 py-8 text-center border-t border-zinc-200 dark:border-white/10">
         <p className="text-zinc-400 text-sm">
-          Created with AI Travel Planner
+          Created with ❤️ by Nalin Kumar
         </p>
       </footer>
       </div>
