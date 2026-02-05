@@ -34,11 +34,11 @@ function ViewTrip() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-xl text-zinc-600 dark:text-zinc-400"
+          className="text-xl text-zinc-600"
         >
           Loading your adventure...
         </motion.div>
@@ -48,7 +48,7 @@ function ViewTrip() {
 
   if (!trip) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -79,7 +79,7 @@ function ViewTrip() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-20">
+    <div className="min-h-screen bg-zinc-50 pb-20">
       {/* Hero Section with Glassmorphism */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -171,7 +171,7 @@ function ViewTrip() {
           transition={{ duration: 0.4, delay: 0.3 }}
           className="mb-20"
         >
-          <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-8">
+          <h2 className="text-3xl font-bold text-zinc-900 mb-8">
             Where to Stay
           </h2>
         {hotelOptions?.length ? (
@@ -205,7 +205,7 @@ function ViewTrip() {
         transition={{ duration: 0.4, delay: 0.4 }}
         className="mb-20"
       >
-        <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-8">
+        <h2 className="text-3xl font-bold text-zinc-900 mb-8">
           Daily Itinerary
         </h2>
         {itinerary?.map((dayPlan, dayIndex) => (
@@ -228,10 +228,10 @@ function ViewTrip() {
                 {dayPlan.day || dayIndex + 1}
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-zinc-800 dark:text-zinc-200">
+                <h3 className="text-2xl font-bold text-zinc-800">
                   Day {dayPlan.day || dayIndex + 1}
                 </h3>
-                <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+                <p className="text-zinc-500 text-sm">
                   {dayPlan.schedule?.length || 0} activities planned
                 </p>
               </div>
@@ -259,17 +259,17 @@ function ViewTrip() {
           transition={{ duration: 0.4, delay: 0.5 }}
           className="mb-20"
         >
-          <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-8">
+          <h2 className="text-3xl font-bold text-zinc-900 mb-8">
             Budget Tips
           </h2>
           <div className="
-            bg-white/50 dark:bg-white/5
+            bg-white/50
             backdrop-blur-md
-            border border-zinc-200 dark:border-white/10
+            border border-zinc-200
             rounded-3xl
             p-8
             hover:shadow-xl
-            hover:border-zinc-300 dark:hover:border-white/20
+            hover:border-zinc-300
             transition-all duration-300
           ">
             <ul className="space-y-4">
@@ -279,7 +279,7 @@ function ViewTrip() {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-                  className="flex items-start gap-3 text-zinc-700 dark:text-zinc-300"
+                  className="flex items-start gap-3 text-zinc-700"
                 >
                   <span className="text-green-500 flex-shrink-0 mt-0.5 text-lg">✓</span>
                   <span>{tip}</span>
@@ -290,7 +290,7 @@ function ViewTrip() {
         </motion.div>
       )}
 
-      <footer className="mt-16 py-8 text-center border-t border-zinc-200 dark:border-white/10">
+      <footer className="mt-16 py-8 text-center border-t border-zinc-200">
         <p className="text-zinc-400 text-sm">
           Created with ❤️ by Nalin Kumar
         </p>

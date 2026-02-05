@@ -72,7 +72,7 @@ function CreateTrip() {
   };
 
   return (
-    <div className='min-h-screen bg-zinc-50 dark:bg-zinc-950'>
+    <div className='min-h-screen bg-zinc-50'>
       {/* Form Content */}
       <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 py-8'>
         <div className='max-w-4xl mx-auto'>
@@ -83,10 +83,10 @@ function CreateTrip() {
             transition={{ duration: 0.5 }}
             className='mb-8'
           >
-            <h2 className='font-bold text-3xl text-zinc-900 dark:text-white mb-2'>
+            <h2 className='font-bold text-3xl text-zinc-900 mb-2'>
               Tell us your travel preferences 🏕️🌴
             </h2>
-            <p className='text-zinc-600 dark:text-zinc-400 text-lg'>
+            <p className='text-zinc-600 text-lg'>
               Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.
             </p>
           </motion.div>
@@ -98,14 +98,14 @@ function CreateTrip() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+              className='bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
             >
               <div className='flex items-center gap-3 mb-4'>
                 <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
                   <MapPin className='w-5 h-5 text-white' />
                 </div>
                 <div>
-                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>What is destination of choice?</h2>
+                  <h2 className='text-xl font-bold text-zinc-900'>What is destination of choice?</h2>
                 </div>
               </div>
               
@@ -119,7 +119,7 @@ function CreateTrip() {
                   />
                 </div>
               </GeoapifyContext>
-              <p className='text-sm text-amber-600 dark:text-amber-400 mt-3 flex items-start gap-2'>
+              <p className='text-sm text-amber-600 mt-3 flex items-start gap-2'>
                 <span className='text-base'>⚠️</span>
                 <span>Please select a destination from the autocomplete suggestions only. Random text entries will not generate a trip.</span>
               </p>
@@ -130,14 +130,14 @@ function CreateTrip() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+              className='bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
             >
               <div className='flex items-center gap-3 mb-4'>
                 <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
                   <Calendar className='w-5 h-5 text-white' />
                 </div>
                 <div>
-                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>How many days are you planning your trip?</h2>
+                  <h2 className='text-xl font-bold text-zinc-900'>How many days are you planning your trip?</h2>
                 </div>
               </div>
               
@@ -147,7 +147,7 @@ function CreateTrip() {
                 min="1"
                 onChange={(e) => handleInputChange('noOfDays', e.target.value)}
                 onWheel={(e) => e.target.blur()}
-                className="w-full border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer"
+                className="w-full border-2 border-zinc-200 bg-white rounded-xl px-5 py-3 text-base focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all cursor-pointer"
               />
             </motion.div>
 
@@ -156,14 +156,14 @@ function CreateTrip() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+              className='bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
             >
               <div className='flex items-center gap-3 mb-4'>
                 <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
                   <DollarSign className='w-5 h-5 text-white' />
                 </div>
                 <div>
-                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>What is Your Budget?</h2>
+                  <h2 className='text-xl font-bold text-zinc-900'>What is Your Budget?</h2>
                 </div>
               </div>
               
@@ -174,10 +174,10 @@ function CreateTrip() {
                     whileHover={{ scale: 1.02, y: -3 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleInputChange('budget', item.title)}
-                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white dark:bg-zinc-800
+                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white
                       ${formData?.budget == item.title 
                         ? 'border-orange-500 shadow-lg shadow-orange-500/20' 
-                        : 'border-zinc-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md'}`}
+                        : 'border-zinc-200 hover:border-orange-300 hover:shadow-md'}`}
                   >
                     {formData?.budget == item.title && (
                       <div className='absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center'>
@@ -185,8 +185,8 @@ function CreateTrip() {
                       </div>
                     )}
                     <h2 className='text-4xl mb-2'>{item.icon}</h2>
-                    <h2 className='font-bold text-lg text-zinc-900 dark:text-white mb-1'>{item.title}</h2>
-                    <h2 className='text-sm text-zinc-600 dark:text-zinc-400'>{item.desc}</h2>
+                    <h2 className='font-bold text-lg text-zinc-900 mb-1'>{item.title}</h2>
+                    <h2 className='text-sm text-zinc-600'>{item.desc}</h2>
                   </motion.div>
                 ))}
               </div>
@@ -197,14 +197,14 @@ function CreateTrip() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className='bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
+              className='bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:shadow-lg transition-all duration-300'
             >
               <div className='flex items-center gap-3 mb-4'>
                 <div className='w-10 h-10 bg-linear-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center'>
                   <Users className='w-5 h-5 text-white' />
                 </div>
                 <div>
-                  <h2 className='text-xl font-bold text-zinc-900 dark:text-white'>Who do you plan on traveling with on your next adventure?</h2>
+                  <h2 className='text-xl font-bold text-zinc-900'>Who do you plan on traveling with on your next adventure?</h2>
                 </div>
               </div>
               
@@ -215,10 +215,10 @@ function CreateTrip() {
                     whileHover={{ scale: 1.02, y: -3 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleInputChange('traveler', item.people)}
-                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white dark:bg-zinc-800
+                    className={`relative p-5 border-2 cursor-pointer rounded-xl transition-all duration-300 bg-white
                       ${formData?.traveler == item.people 
                         ? 'border-orange-500 shadow-lg shadow-orange-500/20' 
-                        : 'border-zinc-200 dark:border-zinc-700 hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md'}`}
+                        : 'border-zinc-200 hover:border-orange-300 hover:shadow-md'}`}
                   >
                     {formData?.traveler == item.people && (
                       <div className='absolute -top-2 -right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center'>
@@ -226,8 +226,8 @@ function CreateTrip() {
                       </div>
                     )}
                     <h2 className='text-4xl mb-2'>{item.icon}</h2>
-                    <h2 className='font-bold text-lg text-zinc-900 dark:text-white mb-1'>{item.title}</h2>
-                    <h2 className='text-sm text-zinc-600 dark:text-zinc-400'>{item.desc}</h2>
+                    <h2 className='font-bold text-lg text-zinc-900 mb-1'>{item.title}</h2>
+                    <h2 className='text-sm text-zinc-600'>{item.desc}</h2>
                   </motion.div>
                 ))}
               </div>

@@ -50,13 +50,13 @@ function MyTrips() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center px-6">
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Please sign in to view your trips</h2>
+          <h2 className="text-2xl font-bold text-zinc-900">Please sign in to view your trips</h2>
         </motion.div>
       </div>
     );
@@ -64,11 +64,11 @@ function MyTrips() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-xl text-zinc-600 dark:text-zinc-400"
+          className="text-xl text-zinc-600"
         >
           Loading your adventures...
         </motion.div>
@@ -77,7 +77,7 @@ function MyTrips() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-20">
+    <div className="min-h-screen bg-zinc-50 pb-20">
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 pt-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,10 +85,10 @@ function MyTrips() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">
+          <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 mb-3">
             My Trips ✈️
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-lg">
+          <p className="text-zinc-600 text-lg">
             {trips.length} {trips.length === 1 ? 'adventure' : 'adventures'} planned
           </p>
         </motion.div>
@@ -102,17 +102,17 @@ function MyTrips() {
         >
           <div className="
             max-w-md mx-auto
-            bg-white/50 dark:bg-white/5
+            bg-white/50
             backdrop-blur-md
-            border border-zinc-200 dark:border-white/10
+            border border-zinc-200
             rounded-3xl
             p-12
           ">
             <div className="text-6xl mb-6">🌍</div>
-            <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-3">
+            <h3 className="text-2xl font-bold text-zinc-900 mb-3">
               No trips yet
             </h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-8">
+            <p className="text-zinc-600 mb-8">
               Start planning your next adventure with AI
             </p>
             <Link to="/create-trip">
@@ -148,13 +148,13 @@ function MyTrips() {
                 to={`/view-trip/${trip.id}`}
                 className="
                   block
-                  bg-white/50 dark:bg-white/5
+                  bg-white/50
                   backdrop-blur-md
-                  border border-zinc-200 dark:border-white/10
+                  border border-zinc-200
                   rounded-2xl
                   overflow-hidden
                   hover:shadow-xl
-                  hover:border-zinc-300 dark:hover:border-white/20
+                  hover:border-zinc-300
                   hover:scale-[1.02]
                   active:scale-[0.98]
                   transition-all duration-300
@@ -210,34 +210,34 @@ function MyTrips() {
                 
                 {/* Card Content */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">
+                  <h3 className="text-xl font-bold mb-4 text-zinc-900">
                     {trip.tripData?.tripDetails?.location || trip.userSelection?.location || 'Trip'}
                   </h3>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400">
-                      <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-lg flex items-center justify-center">
+                    <div className="flex items-center gap-3 text-zinc-600">
+                      <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
                         <Calendar className="w-4 h-4" />
                       </div>
                       <span className="text-sm">{trip.userSelection?.noOfDays} Days</span>
                     </div>
                     
-                    <div className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400">
-                      <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-lg flex items-center justify-center">
+                    <div className="flex items-center gap-3 text-zinc-600">
+                      <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
                         <DollarSign className="w-4 h-4" />
                       </div>
                       <span className="text-sm">{trip.userSelection?.budget}</span>
                     </div>
                     
-                    <div className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400">
-                      <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-lg flex items-center justify-center">
+                    <div className="flex items-center gap-3 text-zinc-600">
+                      <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
                         <Users className="w-4 h-4" />
                       </div>
                       <span className="text-sm">{trip.userSelection?.traveler}</span>
                     </div>
                   </div>
                   
-                  <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-white/10">
+                  <div className="mt-6 pt-4 border-t border-zinc-200">
                     <p className="text-xs text-zinc-400">
                       {trip.createdAt?.toDate?.()?.toLocaleDateString('en-US', { 
                         month: 'short', 

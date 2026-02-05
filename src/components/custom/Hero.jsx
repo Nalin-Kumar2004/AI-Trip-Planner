@@ -16,7 +16,7 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
       {index < 2 && (
         <div className="absolute left-[39px] top-[88px] w-[3px] h-[calc(100%+40px)] -translate-x-1/2">
           {/* Background line */}
-          <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+          <div className="absolute inset-0 bg-zinc-200 rounded-full" />
           {/* Fill line - based on completion */}
           <div 
             className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-orange-500 to-pink-500 transition-all duration-500 ease-out"
@@ -28,12 +28,12 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
       <div
         className={`
           relative
-          bg-white dark:bg-zinc-900
+          bg-white
           border-2 
-          ${isActive ? 'border-orange-500/50 dark:border-orange-500/40 shadow-2xl shadow-orange-500/20' : isPast ? 'border-orange-500/30 dark:border-orange-500/20' : 'border-zinc-200/80 dark:border-zinc-800'}
+          ${isActive ? 'border-orange-500/50 shadow-2xl shadow-orange-500/20' : isPast ? 'border-orange-500/30' : 'border-zinc-200/80'}
           rounded-[28px]
           p-7 pl-24
-          shadow-xl shadow-zinc-200/50 dark:shadow-zinc-950/50
+          shadow-xl shadow-zinc-200/50
           transition-all duration-500 ease-out
           cursor-pointer
           hover:shadow-2xl hover:-translate-y-1
@@ -61,7 +61,7 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
           {/* Main number container */}
           <div className={`
             relative w-[78px] h-[78px] rounded-2xl 
-            ${isPast || isActive ? 'bg-gradient-to-br from-orange-500 via-orange-500 to-pink-500' : 'bg-gradient-to-br from-zinc-300 to-zinc-400 dark:from-zinc-600 dark:to-zinc-700'}
+            ${isPast || isActive ? 'bg-gradient-to-br from-orange-500 via-orange-500 to-pink-500' : 'bg-gradient-to-br from-zinc-300 to-zinc-400'}
             flex items-center justify-center
             shadow-2xl
             ${isActive ? 'shadow-orange-500/50 ring-4 ring-orange-500/20' : isPast ? 'shadow-orange-500/30' : 'shadow-zinc-300/50'}
@@ -70,13 +70,13 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
             {/* Inner gradient overlay for depth */}
             <div className={`
               absolute inset-[3px] rounded-xl opacity-80 transition-all duration-500
-              ${isPast || isActive ? 'bg-gradient-to-br from-orange-400 to-pink-500' : 'bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-500 dark:to-zinc-600'}
+              ${isPast || isActive ? 'bg-gradient-to-br from-orange-400 to-pink-500' : 'bg-gradient-to-br from-zinc-200 to-zinc-300'}
             `} />
             
             {/* The Number */}
             <span className={`
               relative text-4xl font-black drop-shadow-lg transition-colors duration-500
-              ${isPast || isActive ? 'text-white' : 'text-zinc-500 dark:text-zinc-400'}
+              ${isPast || isActive ? 'text-white' : 'text-zinc-500'}
             `} style={{ fontFamily: 'system-ui' }}>
               {step}
             </span>
@@ -111,14 +111,14 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
               className={`
                 text-xs font-bold px-3 py-1.5 rounded-full
                 transition-all duration-500
-                ${isActive ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white scale-105' : isPast ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400'}
+                ${isActive ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white scale-105' : isPast ? 'bg-orange-100 text-orange-600' : 'bg-zinc-100 text-zinc-500'}
               `}
             >
               Step {step}
             </span>
             <h3 className={`
               text-xl font-bold transition-colors duration-500
-              ${isActive ? 'text-zinc-900 dark:text-white' : isPast ? 'text-zinc-700 dark:text-zinc-300' : 'text-zinc-400 dark:text-zinc-500'}
+              ${isActive ? 'text-zinc-900' : isPast ? 'text-zinc-700' : 'text-zinc-400'}
             `}>
               {title}
             </h3>
@@ -127,7 +127,7 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
           {/* Description */}
           <p className={`
             text-[15px] leading-relaxed mb-3 transition-colors duration-500
-            ${isActive ? 'text-zinc-600 dark:text-zinc-300' : isPast ? 'text-zinc-500 dark:text-zinc-400' : 'text-zinc-400 dark:text-zinc-500'}
+            ${isActive ? 'text-zinc-600' : isPast ? 'text-zinc-500' : 'text-zinc-400'}
           `}>
             {description}
           </p>
@@ -135,12 +135,12 @@ const StepCard = ({ step, title, description, highlight, index, activeStep, isCo
           {/* Time highlight tag */}
           <span className={`
             inline-flex items-center gap-2 text-sm font-semibold transition-all duration-500
-            ${isActive ? 'text-orange-600 dark:text-orange-400' : isPast ? 'text-green-600 dark:text-green-400' : 'text-zinc-400 dark:text-zinc-500'}
+            ${isActive ? 'text-orange-600' : isPast ? 'text-green-600' : 'text-zinc-400'}
           `}>
             <span 
               className={`
                 w-2 h-2 rounded-full transition-all duration-500
-                ${isActive ? 'bg-orange-500 animate-pulse' : isPast ? 'bg-green-500' : 'bg-zinc-300 dark:bg-zinc-600'}
+                ${isActive ? 'bg-orange-500 animate-pulse' : isPast ? 'bg-green-500' : 'bg-zinc-300'}
               `}
             />
             {isPast ? '✓ Done' : highlight}
@@ -201,11 +201,11 @@ function Hero() {
 
   return (
     <div 
-      className="relative min-h-screen bg-zinc-50 dark:bg-zinc-950 overflow-hidden"
+      className="relative min-h-screen bg-zinc-50 overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       {/* Refined Glass Morphism Background */}
-      <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-orange-50 via-pink-50 to-rose-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950">
+      <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-orange-50 via-pink-50 to-rose-50">
         {/* Subtle glass blob - top left */}
         <motion.div
           className="absolute top-10 left-10 w-[280px] h-[280px] rounded-full"
@@ -331,7 +331,7 @@ function Hero() {
             ease: "easeInOut"
           }}
         >
-          <Plane className="w-10 h-10 text-orange-400/40 dark:text-orange-400/30" />
+          <Plane className="w-10 h-10 text-orange-400/40" />
         </motion.div>
 
         {/* Floating Palm Tree - Left */}
@@ -347,7 +347,7 @@ function Hero() {
             ease: "easeInOut"
           }}
         >
-          <Palmtree className="w-12 h-12 text-emerald-400/30 dark:text-emerald-400/20" />
+          <Palmtree className="w-12 h-12 text-emerald-400/30" />
         </motion.div>
 
         {/* Floating Map Pin */}
@@ -363,7 +363,7 @@ function Hero() {
             ease: "easeInOut"
           }}
         >
-          <MapPin className="w-8 h-8 text-pink-400/35 dark:text-pink-400/25" />
+          <MapPin className="w-8 h-8 text-pink-400/35" />
         </motion.div>
 
         {/* Another Floating Palm - Right */}
@@ -379,7 +379,7 @@ function Hero() {
             ease: "easeInOut"
           }}
         >
-          <Palmtree className="w-10 h-10 text-emerald-500/25 dark:text-emerald-400/20" />
+          <Palmtree className="w-10 h-10 text-emerald-500/25" />
         </motion.div>
       </div>
 
@@ -395,12 +395,12 @@ function Hero() {
           <h1 className="
             text-5xl sm:text-6xl md:text-7xl lg:text-8xl
             font-bold
-            text-zinc-900 dark:text-zinc-100
+            text-zinc-900
             leading-[1.05]
             mb-6
           " style={{ fontFamily: 'Inter, system-ui, -apple-system, sans-serif', letterSpacing: '-0.02em' }}>
             Plan Your Perfect Trip<br />
-            <span className="inline-block" style={{ minWidth: '400px', textAlign: 'left' }}>
+            <span className="inline-block min-w-[200px] sm:min-w-[280px] md:min-w-[350px] lg:min-w-[400px] text-left">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentWordIndex}
@@ -429,7 +429,7 @@ function Hero() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="
               text-lg md:text-xl
-              text-zinc-600 dark:text-zinc-400
+              text-zinc-600
               max-w-2xl mx-auto
               leading-relaxed
             "
@@ -488,8 +488,8 @@ function Hero() {
                   text-lg
                   cursor-pointer
                   transition-all duration-300
-                  border-zinc-300 dark:border-zinc-700
-                  hover:border-orange-500/50 dark:hover:border-orange-500/50
+                  border-zinc-300
+                  hover:border-orange-500/50
                   backdrop-blur-sm
                   hover:bg-orange-500/5
                   hover:shadow-lg
@@ -532,13 +532,13 @@ function Hero() {
             <div
               key={index}
               className="
-                bg-white/70 dark:bg-zinc-900/70
+                bg-white/70
                 backdrop-blur-xl
-                border border-zinc-200/50 dark:border-zinc-800/50
+                border border-zinc-200/50
                 rounded-3xl
                 p-8
-                hover:bg-white/90 dark:hover:bg-zinc-900/90
-                hover:border-orange-500/30 dark:hover:border-orange-500/30
+                hover:bg-white/90
+                hover:border-orange-500/30
                 hover:shadow-2xl hover:shadow-orange-500/10
                 hover:-translate-y-2
                 transition-all duration-300 ease-out
@@ -563,10 +563,10 @@ function Hero() {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/30 via-transparent to-transparent" />
                 <feature.icon className="w-7 h-7 text-white relative z-10 drop-shadow-sm" />
               </div>
-              <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">
+              <h3 className="text-xl font-semibold text-zinc-900 mb-3">
                 {feature.title}
               </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              <p className="text-zinc-600 leading-relaxed">
                 {feature.description}
               </p>
             </div>
@@ -592,13 +592,13 @@ function Hero() {
           >
             How It Works
           </motion.span>
-          <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 dark:text-white">
+          <h2 className="text-3xl md:text-5xl font-bold text-zinc-900">
             Your Trip in{' '}
             <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
               3 Simple Steps
             </span>
           </h2>
-          <p className="mt-4 text-zinc-500 dark:text-zinc-400 text-lg max-w-md mx-auto">
+          <p className="mt-4 text-zinc-500 text-lg max-w-md mx-auto">
             From idea to itinerary in under a minute
           </p>
         </motion.div>
@@ -650,10 +650,10 @@ function Hero() {
         >
           {/* Main heading */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">
               Travelers Trust Us With Their Adventures
             </h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-lg max-w-xl mx-auto">
+            <p className="text-zinc-500 text-lg max-w-xl mx-auto">
               Real trips planned. Real experiences delivered. Zero stress.
             </p>
           </div>
@@ -695,11 +695,11 @@ function Hero() {
                 key={index}
                 className="
                   relative overflow-hidden
-                  bg-white dark:bg-zinc-900
-                  border border-zinc-200/80 dark:border-zinc-800
+                  bg-white
+                  border border-zinc-200/80
                   rounded-2xl
                   p-5 md:p-6
-                  shadow-lg shadow-zinc-200/50 dark:shadow-zinc-950/50
+                  shadow-lg shadow-zinc-200/50
                   hover:shadow-xl hover:shadow-orange-500/10
                   hover:-translate-y-2 hover:scale-[1.02]
                   hover:border-orange-500/30
@@ -739,17 +739,17 @@ function Hero() {
                   )}
                   
                   {/* Number */}
-                  <div className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
+                  <div className="text-2xl md:text-3xl font-bold text-zinc-900">
                     {stat.number}
                   </div>
                   
                   {/* Label */}
-                  <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mt-1">
+                  <div className="text-sm font-medium text-zinc-700 mt-1">
                     {stat.label}
                   </div>
                   
                   {/* Sublabel */}
-                  <div className="text-xs text-zinc-400 dark:text-zinc-500 mt-0.5">
+                  <div className="text-xs text-zinc-400 mt-0.5">
                     {stat.sublabel}
                   </div>
                 </div>
@@ -763,7 +763,7 @@ function Hero() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-zinc-500 dark:text-zinc-400"
+            className="flex flex-wrap items-center justify-center gap-6 mt-6 text-sm text-zinc-500"
           >
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -797,10 +797,10 @@ function Hero() {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white">
+          <h3 className="text-2xl md:text-3xl font-bold text-zinc-900">
             Loved by Travelers
           </h3>
-          <p className="text-zinc-500 dark:text-zinc-400 mt-2">
+          <p className="text-zinc-500 mt-2">
             See what our community is saying
           </p>
         </motion.div>
@@ -833,10 +833,10 @@ function Hero() {
               key={index}
               className="
                 relative overflow-hidden
-                bg-white dark:bg-zinc-900 
-                border border-zinc-200/80 dark:border-zinc-800 
+                bg-white 
+                border border-zinc-200/80 
                 rounded-2xl p-6
-                shadow-lg shadow-zinc-200/50 dark:shadow-zinc-950/50
+                shadow-lg shadow-zinc-200/50
                 hover:shadow-xl hover:shadow-orange-500/10
                 hover:border-orange-500/30
                 hover:-translate-y-2 hover:scale-[1.02]
@@ -850,7 +850,7 @@ function Hero() {
               <div className={`absolute inset-0 bg-gradient-to-br ${testimonial.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
               
               {/* Quote mark decoration */}
-              <div className="absolute top-4 right-4 text-6xl font-serif text-zinc-100 dark:text-zinc-800 select-none group-hover:text-orange-500/10 transition-colors duration-300">"</div>
+              <div className="absolute top-4 right-4 text-6xl font-serif text-zinc-100 select-none group-hover:text-orange-500/10 transition-colors duration-300">"</div>
               
               <div className="relative">
                 <div className="flex gap-1 mb-4">
@@ -858,7 +858,7 @@ function Hero() {
                     <Star key={i} className="w-4 h-4 text-amber-500 fill-amber-500" />
                   ))}
                 </div>
-                <p className="text-zinc-600 dark:text-zinc-300 mb-6 leading-relaxed text-sm relative z-10">
+                <p className="text-zinc-600 mb-6 leading-relaxed text-sm relative z-10">
                   "{testimonial.text}"
                 </p>
                 <div className="flex items-center gap-3">
@@ -877,8 +877,8 @@ function Hero() {
                     <span className="relative z-10">{testimonial.initials}</span>
                   </div>
                   <div>
-                    <div className="font-semibold text-zinc-900 dark:text-white text-sm">{testimonial.name}</div>
-                    <div className="text-xs text-zinc-500 dark:text-zinc-400">{testimonial.role}</div>
+                    <div className="font-semibold text-zinc-900 text-sm">{testimonial.name}</div>
+                    <div className="text-xs text-zinc-500">{testimonial.role}</div>
                   </div>
                 </div>
               </div>

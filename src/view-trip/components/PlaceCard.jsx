@@ -15,7 +15,7 @@ function PlaceCard({ time, name, description, travelTime, imageUrl }) {
       {/* Time Slot */}
       <div className="flex items-center gap-2 mb-3">
         <Clock className="w-4 h-4 text-orange-500" />
-        <p className="text-orange-500 dark:text-orange-400 font-semibold text-sm">
+        <p className="text-orange-500 font-semibold text-sm">
           {time}
         </p>
       </div>
@@ -27,13 +27,13 @@ function PlaceCard({ time, name, description, travelTime, imageUrl }) {
         onClick={() => openInGoogleMaps(name)}
         className="
           flex
-          bg-white/50 dark:bg-white/5
+          bg-white/50
           backdrop-blur-md
-          border border-zinc-200 dark:border-white/10
+          border border-zinc-200
           rounded-2xl
           overflow-hidden
           hover:shadow-xl
-          hover:border-zinc-300 dark:hover:border-white/20
+          hover:border-zinc-300
           transition-all duration-300
           cursor-pointer
           group
@@ -51,16 +51,16 @@ function PlaceCard({ time, name, description, travelTime, imageUrl }) {
         
         {/* Content */}
         <div className="flex-1 p-4 flex flex-col justify-center">
-          <h4 className="font-bold text-zinc-900 dark:text-zinc-100 mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+          <h4 className="font-bold text-zinc-900 mb-2 group-hover:text-orange-600 transition-colors">
             {name}
           </h4>
           
-          <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-3 line-clamp-2">
+          <p className="text-zinc-600 text-sm mb-3 line-clamp-2">
             {description}
           </p>
           
           {travelTime && (
-            <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-500 text-xs">
+            <div className="flex items-center gap-2 text-zinc-500 text-xs">
               <MapPin className="w-3.5 h-3.5" />
               <span>{travelTime}</span>
             </div>

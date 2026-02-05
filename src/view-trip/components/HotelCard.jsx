@@ -20,14 +20,14 @@ function HotelCard({ name, address, price, rating, imageUrl }) {
       whileTap={{ scale: 0.98 }}
       onClick={() => openInGoogleMaps(name, address)}
       className="
-        bg-white/50 dark:bg-white/5
+        bg-white/50
         backdrop-blur-md
-        border border-zinc-200 dark:border-white/10
+        border border-zinc-200
         rounded-2xl
         overflow-hidden
         cursor-pointer
         hover:shadow-xl
-        hover:border-zinc-300 dark:hover:border-white/20
+        hover:border-zinc-300
         transition-all duration-300
         group
       "
@@ -59,20 +59,20 @@ function HotelCard({ name, address, price, rating, imageUrl }) {
       </div>
       
       <div className="p-6">
-        <h3 className="font-bold text-lg mb-3 text-zinc-900 dark:text-zinc-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+        <h3 className="font-bold text-lg mb-3 text-zinc-900 group-hover:text-orange-600 transition-colors">
           {name}
         </h3>
         
         <div className="space-y-3">
-          <div className="flex items-start gap-3 text-zinc-600 dark:text-zinc-400">
-            <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="flex items-start gap-3 text-zinc-600">
+            <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center flex-shrink-0">
               <MapPin className="w-4 h-4" />
             </div>
             <p className="text-sm line-clamp-2 flex-1">{address}</p>
           </div>
           
-          <div className="flex items-center gap-3 text-zinc-700 dark:text-zinc-300">
-            <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-lg flex items-center justify-center">
+          <div className="flex items-center gap-3 text-zinc-700">
+            <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
               <DollarSign className="w-4 h-4" />
             </div>
             <p className="text-sm font-semibold">{price}</p>
