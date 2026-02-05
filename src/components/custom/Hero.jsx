@@ -474,32 +474,6 @@ function Hero() {
               </Button>
             </motion.div>
           </Link>
-          
-          <Link to="/my-trips">
-            <motion.div
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button
-                variant="outline"
-                className="
-                  rounded-full
-                  px-8 py-6
-                  text-lg
-                  cursor-pointer
-                  transition-all duration-300
-                  border-zinc-300
-                  hover:border-orange-500/50
-                  backdrop-blur-sm
-                  hover:bg-orange-500/5
-                  hover:shadow-lg
-                  hover:shadow-orange-500/10
-                "
-              >
-                View My Trips
-              </Button>
-            </motion.div>
-          </Link>
         </motion.div>
 
         {/* Feature Grid */}
